@@ -1,16 +1,11 @@
 export default function StackedAreaChart(container){
 
-     // initialization
      let margin = { top: 40, right: 20, bottom: 40, left: 90 },
      width =
      710 -
      margin.left -
      margin.right,
      height = 400 - margin.top - margin.bottom; 
-
-     var type = ""
-     let selected = null, xDomain, data;
-     let DATA;
 
     let svg = d3
         .select(".main-chart")
@@ -21,13 +16,16 @@ export default function StackedAreaChart(container){
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
     let clipPath = svg.append("defs")
-    .append("clipPath")
-    .attr("id", "clip")
-    .append("rect")
-    .attr("width", width)
-    .attr("height", height);
+        .append("clipPath")
+        .attr("id", "clip")
+        .append("rect")
+        .attr("width", width)
+        .attr("height", height);
 
-
+        var type = ""
+        let selected = null, xDomain, data;
+        let DATA;
+    
     let group = svg.append('g')
     const tooltip = svg
      .append("text")
@@ -52,38 +50,19 @@ export default function StackedAreaChart(container){
 
     var yAxisGroup = svg.append('g')
         .attr('class', 'axis y-axis');
-    function updateMain(selected, data, svg){
 
-        var colorScale = d3.scaleOrdinal(d3.schemeTableau10)
-            .domain(data.columns.slice(1));
+function updateMain(selected, data, svg){
+            let xScale = d3
+                .scaleTime()
+                .range([0,width])
 
-            console.log(data, "MAIN")
-            svg.select('axis y-axis').exit().remove()
+            let yScale = d3
+                .scaleLinear()
+                .range([height,0])
 
-                    // initialization
-            let margin = { top: 40, right: 20, bottom: 40, left: 90 },
-            width =
-            710 -
-            margin.left -
-            margin.right,
-            height = 400 - margin.top - margin.bottom; 
-
-            var type = ""
-            let selection;
-
-            
-
-        let xScale = d3
-            .scaleTime()
-            .range([0,width])
-
-        let yScale = d3
-            .scaleLinear()
-            .range([height,0])
-
-        let xAxis = d3
-            .axisBottom()
-            .scale(xScale);
+            let xAxis = d3
+                .axisBottom()
+                .scale(xScale);
 
         let yAxis = d3
             .axisLeft()
@@ -165,7 +144,7 @@ function update(value){
         svg.select('.y-axis')
             .call(yAxis)
 
-            
+
             areas
             .enter()
              .append('path')
@@ -189,11 +168,9 @@ function update(value){
     function filterByDate(range){
         xDomain = range;  // -- (3)
         if (selected != null){
-            console.log("HERE")
             updateMain(selected, data, svg)
         }
         if (selected == null) {
-            console.log(data)
             update(data); // -- (4)
         }
     }

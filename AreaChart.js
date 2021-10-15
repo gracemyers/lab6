@@ -1,10 +1,7 @@
 export default function AreaChart(container){
 
      let margin = { top: 40, right: 20, bottom: 40, left: 90 },
-     width =
-     710 -
-     margin.left -
-     margin.right,
+     width = 710 - margin.left - margin.right,
      height = 150 - margin.top - margin.bottom; 
 
      let svg = d3
